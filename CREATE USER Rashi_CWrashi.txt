@@ -1,0 +1,217 @@
+CREATE USER Rashi_CW/rashi
+
+GRANT CONNECT, RESOURCE TO Rashi_CW
+
+SPOOL C:\myfiles\FILE1.sql
+
+
+SELECT Customer.Customer_ID, Customer.Customer_Name
+FROM Customer
+LEFT JOIN Order_Details ON Customer.Customer_ID = Order_Details.Customer_ID
+WHERE Order_Details.Customer_ID IS NULL;
+
+
+
+
+SELECT Customer.Customer_ID, Customer.Customer_Name
+FROM Customer
+LEFT JOIN Orders ON Customer.Customer_ID = Product_Order.Customer_ID
+LEFT JOIN Product_Order Orders.Orders_ID = Product_Order.Order_ID
+ORDER BY Customer.Customer_ID, Orders.Orders_ID;
+
+
+
+
+SELECT * FROM Product
+WHERE Product_Name LIKE '_a%'
+AND Product_Stock > 50;
+
+
+CREATE TABLE Order_Details
+2 (Order_ID int not null,
+3 Customer_ID int not null,
+4 Foreign Key(Order_ID) REFERENCES Orders(Order_ID),
+5 Foreign Key(Customer_ID) REFERENCES Customer(Customer_ID));
+
+DESCRIBE Order_Details;
+
+
+
+SELECT Orders.Order_ID, Orders.Order_Date, 
+Order_Details.Customer_ID, Customer.Customer_Name
+FROM Order_Details
+JOIN Orders
+ON Order_Details.Order_ID = Orders.Order_ID
+JOIN Customer
+ON Order_Details.Customer_ID = Customer.Customer_ID;
+
+
+
+
+
+
+
+SELECT Vendor.Vendor_ID, Vendor.Vendor_Name,
+Vendor.Vendor_Address, Vendor.Vendor_Contact, 
+COUNT(Product.Product_ID) AS Total_Supply
+FROM Vendor
+JOIN Product 
+ON Vendor.Vendor_ID = Product.Vendor_ID
+GROUP BY Vendor.Vendor_ID, Vendor.Vendor_Name, Vendor.Vendor_Address, Vendor.Vendor_Contact
+HAVING COUNT(Product.Product_ID) > 3;
+
+
+
+
+SELECT Product.Product_ID, Product.Product_Name, Product.Product_Category
+COUNT(Product_Order.Order_ID) AS Total_Orders
+FROM Product
+JOIN Product_Order
+ON Product.Product_ID = Product_Order.Order_ID
+GROUP BY Product.Product_ID, Product.Product_Name, Product.Product_Category
+ORDER BY Total_Orders DESC LIMIT 3;
+
+
+
+
+
+SELECT Order_Details.Order_ID, Order_Details.Customer_ID,
+Customer.Customer_Name, Orders.Order_Date 
+FROM Order_Details 
+JOIN Orders 
+ON Order_Details.Order_ID = Orders.Order_ID 
+JOIN Customer 
+ON Order_Details.Customer_ID = Customer.Customer_ID 
+WHERE Orders.Order_Date = (SELECT MAX (Order_Date) FROM Orders);
+
+
+CREATE TABLE Customer
+2 (Customer_ID int Primary key,
+3 Customer_Name varchar(20) not null,
+4 Customer_Address varchar(10) not null,
+5 Customer_Contact int not null Unique,
+6 Discount_Rate int,
+7 Category varchar(10) not null);
+
+DESCRIBE Customer;
+
+
+CREATE TABLE Invoice
+2 (Invoice_ID int Primary key,
+3 Invoice_Date date,
+4 Total int,
+5 Discount_Amount int,
+6 Net_Amount int,
+7 Payment_Option varchar(15));
+
+DESCRIBE Invoice;
+
+
+CREATE TABLE Vendor
+2 (Vendor_ID int Primary Key,
+3 Vendor_Name varchar(20) not null,
+4 Vendor_Address varchar(10) not null,
+5 Vendor_Contact int not null Unique);
+
+DESCRIBE Vendor;
+
+
+CREATE TABLE Product
+2 (Product_ID int Primary key,
+3 Product_Name varchar(20) not null,
+4 Product_Description varchar(30),
+5 Product_Category varchar(15) not null,
+6 Unit_Cost int not null,
+7 Product_Stock int,
+8 Availability varchar(15),
+8 Vendor_ID int not null,
+9 Foreign key(Vendor_ID) REFERENCES Vendor(Vendor_ID));
+
+DESCRIBE Product;
+
+
+CREATE TABLE Orders
+2 (Order_ID int Primary Key,
+3 Order_Date date,
+4 Invoice_ID int not null,
+5 Foreign Key(Invoice_ID) REFERENCES Invoice(Invoice_ID));
+
+DESCRIBE Orders;
+
+
+
+SELECT
+    Product.Product_ID,
+    Product.Product_Name,
+    Product.Product_Category,
+    COUNT(Product_Order.Order_ID) AS Total_Orders
+FROM
+    Product
+JOIN
+    Product_Order ON Product.Product_ID = Product_Order.Product_ID
+GROUP BY
+    Product.Product_ID, Product.Product_Name, Product.Product_Category
+ORDER BY
+    Total_Orders DESC
+FETCH FIRST 3 ROWS ONLY;
+
+
+
+SELECT * FROM
+(SELECT Customer.Customer_ID, Customer.Customer_Name, Customer.Category
+COUNT(Product_Order.Order_ID) AS Number_of_Orders,
+SUM(Invoice.Total) AS Total_Expense
+FROM Customer
+JOIN Product_Order
+ON Customer.Customer_ID = Product_Order.Customer_ID
+JOIN Orders
+ON Product_Order.Order_ID = Orders.Order_ID
+JOIN Invoice
+ON Orders.Invoice_ID = Invoice.Invoice_ID
+WHERE TO_CHAR(Orders.Order_Date, 'YYYY-MM') = '2023-08'
+GROUP BY Customer.Customer_ID, Customer.Customer_Name, Customer.Category
+ORDER BY Orders_Made DESC)
+WHERE ROWNUM = 1;
+
+
+
+
+
+SELECT * FROM
+(SELECT Customer.Customer_ID, Customer.Customer_Name, Customer.Category,
+COUNT(Product_Order.Order_ID) AS Number_of_Orders,
+SUM(Invoice.Total) AS Total_Expense
+FROM Customer
+JOIN Product_Order
+ON Customer.Customer_ID = Product_Order.Customer_ID
+JOIN Orders
+ON Product_Order.Order_ID = Orders.Order_ID
+JOIN Invoice
+ON Orders.Invoice_ID = Invoice.Invoice_ID
+WHERE TO_CHAR(Orders.Order_Date, 'YYYY-MM') = '2023-08'
+GROUP BY Customer.Customer_ID, Customer.Customer_Name, Customer.Category
+ORDER BY Number_of_Orders DESC)
+WHERE ROWNUM = 1;
+
+
+
+
+
+CREATE TABLE Product_Order 
+2 (Customer_ID int not null, 
+3 Order_ID int not null, 
+4 Product_ID int not null, 
+5 Product_Quantity int, 
+6 Line_Total int not null, 
+7 Foreign Key (Customer_ID) REFERENCES Customer (Customer_ID), 
+8 Foreign Key (Order_ID) REFERENCES Orders (Order_ID), 
+9 Foreign Key (Product_ID) REFERENCES Product (Product_ID)); 
+
+DESCRIBE Product_Order;
+
+
+SET LINESIZE 1000
+SET PAGESIZE 40
+
+
+

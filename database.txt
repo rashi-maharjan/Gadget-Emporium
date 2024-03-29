@@ -1,0 +1,131 @@
+01-05-2023 till 28-05-2023 
+second letter ‘a’ in their product name 
+stock quantity more than 50
+vendors who have supplied more than 3 products 
+ordered the most top 3
+ordered the most in August 
+
+
+INSERT ALL
+INTO Customer values (1011, 'Rima Suwal', 'Teku', 9813000111, 0, 'Regular')
+INTO Customer values (1122, 'Sezan Rai', 'Baluwatar', 9841123443, 0, 'Regular')
+INTO Customer values (1150, 'Avanish Karna', 'Baneshwor', 9841432660, 5, 'Staff')
+INTO Customer values (1244, 'Eva Lama', 'Ason', 9841777788, 10, 'VIP')
+INTO Customer values (1460, 'Daya Shrestha', 'Kuleshwor', 9851909090, 10, 'VIP')
+INTO Customer values (1593, 'Subin Malla', 'Bafal', 9851334455, 5, 'Staff')
+INTO Customer values (1678, 'Ram Maharjan', 'Sitapaila', 9813212121, 10, 'VIP')
+INTO Customer values (1746, 'Neha Karki', 'Kamaladi', 9814335678, 0, 'Regular')
+INTO Customer values (1867, 'Bina Thakur', 'Kohity', 9841098765, 0, 'Regular')
+INTO Customer values (1987, 'Aayush Nepali', 'Babarmahal', 9841888000, 5, 'Staff')
+SELECT * FROM dual;
+
+SELECT * FROM Customer;
+
+
+
+
+INSERT ALL
+INTO Invoice values (11023, '03-MAY-2023', 4200, 0, 4200, 'Delivery')
+INTO Invoice values (13890, '08-MAY-2023', 87000, 4350, 82650, 'E-Wallet')
+INTO Invoice values (17869, '20-MAY-2023', 9800, 980, 8820, 'Delivery')
+INTO Invoice values (20312, '09-JUN-2023', 3500, 0, 3500, 'Debit')
+INTO Invoice values (25619, '18-JUL-2023', 66000, 3300, 62700, 'Debit')
+INTO Invoice values (28934, '13-AUG-2023', 175000, 17500, 157500, 'Credit')
+INTO Invoice values (33006, '23-AUG-2023', 52500, 0, 52500, 'E-Wallet')
+INTO Invoice values (33033, '30-AUG-2023', 12500, 625, 11875, 'E-Wallet')
+SELECT * FROM dual;
+
+SELECT * FROM Invoice;
+
+
+
+
+INSERT ALL
+INTO Vendor values (105, 'Shyam Mali', 'Balaju', 9841231542)
+INTO Vendor values (124, 'Hari Shakya', 'Tinkune', 9841987007)
+INTO Vendor values (139, 'Naresh Suwal', 'New Road', 9851676767)
+INTO Vendor values (155, 'Birendra Adhikari', 'Sanepa', 9813221221)
+INTO Vendor values (198, 'Prakash Ojha', 'Chhauni', 9841551055)
+INTO Vendor values (117, 'Sailesh Nepal', 'Baneshwor', 9813444440)
+INTO Vendor values (182, 'Laxman Pradhan', 'Thapagaun', 9813335590)
+SELECT * FROM dual;
+
+SELECT * FROM Vendor;
+
+
+
+
+INSERT ALL
+INTO Product values (304, 'Iphone XR', 'Black 64GB', 'Mobile', 66000, 30, 'Available', 139)
+INTO Product values (332, 'Samsung Galaxy A24', 'White 256GB', 'Mobile', 50000, 56, 'Available', 117)
+INTO Product values (367, 'VAIO FE14', 'Black 14.1 inch', 'Laptop', 75000, 52, 'Available', 117)
+INTO Product values (321, 'Panasonic', 'Black  32 inch', 'TV', 87000, 59, 'Available', 124)
+INTO Product values (310, 'Ultima Atom 520 Pro', 'Black', 'Earbuds', 2500, 45, 'Available', 155)
+INTO Product values (359, 'T800 Ultra', 'Orange 44mm', 'Smart Watch', 1750, 51, 'Available', 105)
+INTO Product values (365, 'Apple Watch SE', 'Silver 40mm', 'Smart Watch', 6500, 36, 'Out of Stock', 198)
+INTO Product values (378, 'Asus Vivobook', 'Navy 14 inch', 'Laptop', 112500, 17, 'Out of Stock', 182)
+INTO Product values (385, 'Iphone 15 Pro Max', 'Blue 1TB', 'Mobile', 218000, 57, 'Available', 139)
+INTO Product values (399, 'Airpods Pro', 'White', 'Earbuds', 2100, 55, 'Available', 155)
+SELECT * FROM dual;
+
+SELECT * FROM Product;
+
+
+
+INSERT ALL
+INTO Orders values (2003, '01-MAY-2023', 11023)
+INTO Orders values (2060, '08-MAY-2023', 13890)
+INTO Orders values (2133, '20-MAY-2023', 17869)
+INTO Orders values (2290, '04-JUN-2023', 20312)
+INTO Orders values (2401, '06-JUL-2023', 25619)
+INTO Orders values (2679, '10-AUG-2023', 28934)
+INTO Orders values (2808, '20-AUG-2023', 33006)
+INTO Orders values (2999, '30-AUG-2023', 33033)
+SELECT * FROM dual;
+
+SELECT * FROM Orders;
+
+
+
+
+INSERT ALL
+INTO Order_Details values (2003, 1122)
+INTO Order_Details values (2060, 1150)
+INTO Order_Details values (2133, 1460)
+INTO Order_Details values (2290, 1122)
+INTO Order_Details values (2401, 1593)
+INTO Order_Details values (2679, 1678)
+INTO Order_Details values (2808, 1867)
+INTO Order_Details values (2999, 1987)
+SELECT * FROM dual;
+  
+SELECT * FROM Order_Details;
+
+
+
+
+INSERT ALL
+INTO Product_Order values (1122, 2003, 399, 2, 4200)
+INTO Product_Order values (1150, 2060, 321, 1, 87000)
+INTO Product_Order values (1460, 2133, 399, 3, 6300)
+INTO Product_Order values (1460, 2133, 359, 2, 3500)
+INTO Product_Order values (1122, 2290, 359, 2, 3500)
+INTO Product_Order values (1593, 2401, 304, 1, 66000)
+INTO Product_Order values (1678, 2679, 332, 2, 100000)
+INTO Product_Order values (1678, 2679, 367, 1, 75000)
+INTO Product_Order values (1867, 2808, 332, 1, 50000)
+INTO Product_Order values (1867, 2808, 310, 1, 2500)
+INTO Product_Order values (1987, 2999, 310, 5, 12500)
+SELECT * FROM dual; 
+
+SELECT * FROM Product_Order;
+
+
+
+
+
+
+
+
+
+
